@@ -1,81 +1,33 @@
+TextSynth: Advanced Character-Level Text Generation Framework
 
-# makemore
+TextSynth is a sophisticated and versatile framework designed for generating text sequences that emulate the style and structure of your input data. By processing a text file where each line represents a unique training example, TextSynth learns intricate patterns and produces coherent, contextually relevant outputs. It functions as an autoregressive character-level language model, offering a range of architectures from simple bigrams to advanced models like Transformers.
 
-makemore takes one text file as input, where each line is assumed to be one training thing, and generates more things like it. Under the hood, it is an autoregressive character-level language model, with a wide choice of models from bigrams all the way to a Transformer (exactly as seen in GPT). For example, we can feed it a database of names, and makemore will generate cool baby name ideas that all sound name-like, but are not already existing names. Or if we feed it a database of company names then we can generate new ideas for a name of a company. Or we can just feed it valid scrabble words and generate english-like babble.
+Key Features:
 
-This is not meant to be too heavyweight library with a billion switches and knobs. It is one hackable file, and is mostly intended for educational purposes. [PyTorch](https://pytorch.org) is the only requirement.
+Diverse Text Generation: Whether you're aiming to create unique names, innovative company titles, or coherent word formations, TextSynth adapts to various datasets to generate contextually appropriate text sequences.
 
-Current implementation follows a few key papers:
+Comprehensive Learning Tool: Designed with both simplicity and depth, TextSynth is encapsulated within a single, easily modifiable script. This design encourages experimentation and learning, making it an excellent resource for understanding the mechanics of language models.
 
-- Bigram (one character predicts the next one with a lookup table of counts)
-- MLP, following [Bengio et al. 2003](https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf)
-- CNN, following [DeepMind WaveNet 2016](https://arxiv.org/abs/1609.03499) (in progress...)
-- RNN, following [Mikolov et al. 2010](https://www.fit.vutbr.cz/research/groups/speech/publi/2010/mikolov_interspeech2010_IS100722.pdf)
-- LSTM, following [Graves et al. 2014](https://arxiv.org/abs/1308.0850)
-- GRU, following [Kyunghyun Cho et al. 2014](https://arxiv.org/abs/1409.1259)
-- Transformer, following [Vaswani et al. 2017](https://arxiv.org/abs/1706.03762)
+Seamless PyTorch Integration: Leveraging the PyTorch library, TextSynth ensures efficient computation and provides a familiar framework for users acquainted with this popular deep learning toolkit.
 
-### Usage
+Implemented Architectures:
 
-The included `names.txt` dataset, as an example, has the most common 32K names takes from [ssa.gov](https://www.ssa.gov/oact/babynames/) for the year 2018. It looks like:
+TextSynth incorporates several foundational models, each inspired by seminal research in the field:
 
-```
-emma
-olivia
-ava
-isabella
-sophia
-charlotte
-...
-```
+Bigram Model: Captures the probability of a character based on its immediate predecessor.
 
-Let's point the script at it:
+Recurrent Neural Network (RNN): Utilizes recurrent connections to capture dependencies in sequences.
 
-```bash
-$ python makemore.py -i names.txt -o names
-```
+Long Short-Term Memory (LSTM): Addresses the vanishing gradient problem in RNNs, enabling the modeling of longer dependencies.
 
-Training progress and logs and model will all be saved to the working directory `names`. The default model is a super tiny 200K param transformer; Many more training configurations are available - see the argparse and read the code. Training does not require any special hardware, it runs on my Macbook Air and will run on anything else, but if you have a GPU then training will fly faster. As training progresses the script will print some samples throughout. However, if you'd like to sample manually, you can use the `--sample-only` flag, e.g. in a separate terminal do:
+Transformer: Employs self-attention mechanisms for parallel processing of sequences, facilitating the modeling of complex patterns.
 
-```bash
-$ python makemore.py -i names.txt -o names --sample-only
-```
+Getting Started:
 
-This will load the best model so far and print more samples on demand. Here are some unique baby names that get eventually generated from current default settings (test logprob of ~1.92, though much lower logprobs are achievable with some hyperparameter tuning):
+Prepare Your Dataset: Create a text file where each line represents a distinct training example relevant to your desired output.
 
-```
-dontell
-khylum
-camatena
-aeriline
-najlah
-sherrith
-ryel
-irmi
-taislee
-mortaz
-akarli
-maxfelynn
-biolett
-zendy
-laisa
-halliliana
-goralynn
-brodynn
-romima
-chiyomin
-loghlyn
-melichae
-mahmed
-irot
-helicha
-besdy
-ebokun
-lucianno
-```
+Configure the Model: Select the desired architecture and adjust hyperparameters within the script to suit your specific use case.
 
-Have fun!
+Train the Model: Run the script to initiate the training process. TextSynth will process the input data and learn the underlying patterns.
 
-### License
-
-MIT
+Generate Text: After training, use the model to generate new text sequences that mirror the style and structure of your input data.
